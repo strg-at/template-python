@@ -25,8 +25,10 @@ Short project description
 
 - [Code-Style](#code-style)
 - [Getting Started](#getting-started)
+  - [Setup](#setup)
   - [Prerequisties](#prerequisties)
   - [Initialize repository](#initialize-repository)
+  - [Coverage report](#coverage-report)
 - [Configuration](#configuration)
   - [Preparation](#preparation)
 - [Known Issues](#known-issues)
@@ -58,6 +60,8 @@ pip install git+ssh://git@github.com:strg-at/template-python.git
 
 ### Prerequisties
 
+Install pre-commit.
+
 - [pre-commit][pre-commit]
 - [yamllint][yamllint]
 
@@ -69,6 +73,8 @@ Pre-commit framework need to get initialized.
 task pre-commit:init
 ```
 ### Coverage report
+
+Run coverage report.
 
 ```bash
 sh ./coverage_report.sh
