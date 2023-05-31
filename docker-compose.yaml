@@ -1,0 +1,23 @@
+---
+version: "3.8"
+
+networks:
+  default:
+    name: template_python
+
+services:
+  python:
+    build:
+      context: ./Dockerfile
+    container_name: template_python_docker
+    ports:
+      - "80:8080"
+    volumes:
+      - ./:/app/
+    environment:
+      - TZ=Europe/Vienna
+      - DATA_AMOUNT=10
+    command:
+      - /bin/sh
+      - -c
+      - cd /app && tail -f /dev/null
