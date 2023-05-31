@@ -34,8 +34,17 @@ Short project description
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 </details>
 
-## Setup
 
+
+
+
+## Code-Style
+
+<!-- TBD -->
+
+## Getting Started
+
+### Setup
 Install template-python repository using bash
 
 ```bash
@@ -46,13 +55,6 @@ Install template-python repository using git+ssh
 ```bash
 pip install git+ssh://git@github.com:strg-at/template-python.git
 ```
-
-
-## Code-Style
-
-<!-- TBD -->
-
-## Getting Started
 
 ### Prerequisties
 
@@ -65,6 +67,21 @@ Pre-commit framework need to get initialized.
 
 ```console
 task pre-commit:init
+```
+### Coverage report
+
+```bash
+sh ./coverage_report.sh
+```
+
+```bash
+Name                                                                Stmts   Miss  Cover
+---------------------------------------------------------------------------------------
+template_python/template_python_package/template_python_module.py       6      0   100%
+template_python/unittest/template_python_test.py                       18      1    94%
+---------------------------------------------------------------------------------------
+TOTAL                                                                  24      1    96%
+
 ```
 
 ## Configuration
