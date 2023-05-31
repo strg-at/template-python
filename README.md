@@ -34,6 +34,20 @@ Short project description
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 </details>
 
+## Setup
+
+Install template-python repository using bash
+
+```bash
+pip install -e .
+```
+
+Install template-python repository using git+ssh
+```bash
+pip install git+ssh://git@github.com:strg-at/template-python.git
+```
+
+
 ## Code-Style
 
 <!-- TBD -->
