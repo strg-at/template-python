@@ -1,0 +1,39 @@
+{
+    "nodes": [
+        {
+            "node_label": "homepage",
+            "connected_nodes_list": [
+                "homepage",
+                "trending"
+            ]
+        },
+        {
+            "node_label": "trending",
+            "connected_nodes_list": [
+                "homepage",
+                "shirts"
+            ]
+        },
+        {
+            "node_label": "shirts",
+            "connected_nodes_list": [
+                "full_sleeve",
+                "short_sleeve"
+            ]
+        },
+        {
+            "node_label": "full_sleeve",
+            "connected_nodes_list": [
+                "homepage",
+                "shirts"
+            ]
+        },
+        {
+            "node_label": "short_sleeve",
+            "connected_nodes_list": [
+                "homepage",
+                "shirts"
+            ]
+        }
+    ]
+}
