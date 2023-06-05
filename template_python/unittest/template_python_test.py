@@ -19,7 +19,7 @@ class TestTemplatePythonModule(unittest.TestCase):
         print("Setup")
         self.filename = "template_python/mock_data/mock_web_portal.json"
         return super().setUp()
-    
+
     def test_read_json_file(self):
         """Test read_json_file.
 
@@ -37,7 +37,7 @@ class TestTemplatePythonModule(unittest.TestCase):
 
 if __name__ == '__main__':
     # cd ../template-python
-    # python -m unittest template_python/unittest/template_python_test.py 
+    # python -m unittest template_python/unittest/template_python_test.py
     # OR
     # the following can be used if no reference to files outside of the current
     # path
