@@ -36,10 +36,6 @@ Short project description
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 </details>
 
-
-
-
-
 ## Code-Style
 
 <!-- TBD -->
@@ -47,6 +43,7 @@ Short project description
 ## Getting Started
 
 ### Setup
+
 Install template-python repository using bash
 
 ```bash
@@ -54,6 +51,7 @@ pip install -e .
 ```
 
 Install template-python repository using git+ssh
+
 ```bash
 pip install git+ssh://git@github.com:strg-at/template-python.git
 ```
@@ -72,6 +70,7 @@ Pre-commit framework need to get initialized.
 ```console
 task pre-commit:init
 ```
+
 ### Coverage report
 
 Run coverage report.
@@ -88,6 +87,14 @@ template_python/unittest/template_python_test.py                       18      1
 ---------------------------------------------------------------------------------------
 TOTAL                                                                  24      1    96%
 
+```
+
+### Pre-commit
+
+Run the following to fix linting issues using pre-commit.
+
+```bash
+task pre-commit:run
 ```
 
 ## Configuration
