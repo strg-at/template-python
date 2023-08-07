@@ -12,6 +12,5 @@ setup(
     ],
     namespace_packages=['template_python'],
     author_email='support@strg.at',
-    license='LGPL',
     version="1.0"
 )
