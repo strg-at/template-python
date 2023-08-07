@@ -29,6 +29,7 @@ Short project description
   - [Prerequisties](#prerequisties)
   - [Initialize repository](#initialize-repository)
   - [Coverage report](#coverage-report)
+  - [Pre-commit](#pre-commit)
 - [Configuration](#configuration)
   - [Preparation](#preparation)
 - [Known Issues](#known-issues)
