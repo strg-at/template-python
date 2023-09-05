@@ -98,6 +98,8 @@ Run the following to fix linting issues using pre-commit.
 task pre-commit:run
 ```
 
+Based on pre-commit gitleaks dependencies Go language needs to be installed.
+
 ## Configuration
 
 ### Preparation
