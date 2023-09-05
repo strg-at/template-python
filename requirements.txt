@@ -1,4 +1,2 @@
-###### Requirements without Version Specifiers ######
-requests
-###### Requirements with Version Specifiers ######
+requests==2.31.0
 numpy==1.24.2
