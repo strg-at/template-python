@@ -25,8 +25,11 @@ Short project description
 
 - [Code-Style](#code-style)
 - [Getting Started](#getting-started)
+  - [Setup](#setup)
   - [Prerequisties](#prerequisties)
   - [Initialize repository](#initialize-repository)
+  - [Coverage report](#coverage-report)
+  - [Pre-commit](#pre-commit)
 - [Configuration](#configuration)
   - [Preparation](#preparation)
 - [Known Issues](#known-issues)
@@ -40,7 +43,23 @@ Short project description
 
 ## Getting Started
 
+### Setup
+
+Install template-python repository using bash
+
+```bash
+pip install -e .
+```
+
+Install template-python repository using git+ssh
+
+```bash
+pip install git+ssh://git@github.com:strg-at/template-python.git
+```
+
 ### Prerequisties
+
+Install pre-commit.
 
 - [pre-commit][pre-commit]
 - [yamllint][yamllint]
@@ -52,6 +71,34 @@ Pre-commit framework need to get initialized.
 ```console
 task pre-commit:init
 ```
+
+### Coverage report
+
+Run coverage report.
+
+```bash
+sh ./coverage_report.sh
+```
+
+```bash
+Name                                                                Stmts   Miss  Cover
+---------------------------------------------------------------------------------------
+template_python/template_python_package/template_python_module.py       6      0   100%
+template_python/unittest/template_python_test.py                       18      1    94%
+---------------------------------------------------------------------------------------
+TOTAL                                                                  24      1    96%
+
+```
+
+### Pre-commit
+
+Run the following to fix linting issues using pre-commit.
+
+```bash
+task pre-commit:run
+```
+
+Based on pre-commit gitleaks dependencies Go language needs to be installed.
 
 ## Configuration
 
