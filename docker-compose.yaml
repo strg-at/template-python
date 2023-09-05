@@ -16,7 +16,6 @@ services:
       - ./:/app/
     environment:
       - TZ=Europe/Vienna
-      - DATA_AMOUNT=10
     command:
       - /bin/sh
       - -c
