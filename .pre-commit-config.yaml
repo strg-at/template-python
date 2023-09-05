@@ -44,7 +44,7 @@ repos:
       - id: yamllint
         args:
           - --config-file
-          - .yamllint.config.yaml
+          - .yamllint.yaml
 
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.4.2
@@ -52,10 +52,12 @@ repos:
       - id: remove-crlf
       - id: remove-tabs
 
-  - repo: https://github.com/sirosen/fix-smartquotes
-    rev: 0.2.0
+  - repo: https://github.com/sirosen/texthooks
+    rev: 0.5.0
     hooks:
       - id: fix-smartquotes
+      - id: fix-ligatures
+      - id: forbid-bidi-controls
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.33.0
@@ -79,3 +81,8 @@ repos:
           - .prettierignore
           - --config
           - .prettierrc.yaml
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.16.1
+    hooks:
+      - id: gitleaks
