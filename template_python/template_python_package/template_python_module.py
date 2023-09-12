@@ -2,6 +2,7 @@
 from typing import Dict
 import json
 
+
 def read_json_file(filename: str) -> Dict:
     """Read json file.
 

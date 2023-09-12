@@ -63,6 +63,7 @@ Install pre-commit.
 
 - [pre-commit][pre-commit]
 - [yamllint][yamllint]
+- [taskfile][taskfile-url]
 
 ### Initialize repository
 

@@ -2,10 +2,10 @@
 
 import unittest
 
-from template_python.template_python_package.template_python_module\
-      import read_json_file
+from template_python.template_python_package.template_python_module import read_json_file
 
 from pprint import pprint
+
 
 class TestTemplatePythonModule(unittest.TestCase):
     """Test Template Python Module."""
@@ -35,7 +35,7 @@ class TestTemplatePythonModule(unittest.TestCase):
         pprint(result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # cd ../template-python
     # python -m unittest template_python/unittest/template_python_test.py
     # OR
