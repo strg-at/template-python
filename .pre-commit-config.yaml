@@ -86,3 +86,11 @@ repos:
     rev: v8.16.1
     hooks:
       - id: gitleaks
+
+  - repo: https://github.com/psf/black
+    rev: 23.7.0
+    hooks:
+      - id: black
+        args:
+          - --config
+          - .black-config.toml
