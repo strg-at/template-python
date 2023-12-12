@@ -12,7 +12,7 @@ def suite():
     """Test suite."""
     suite = unittest.TestSuite()
 
-    from template_python.unittest.template_python_test import TestTemplatePythonModule
+    from template_python.test.template_python_test import TestTemplatePythonModule
 
     suite.addTests(unittest.TestLoader().loadTestsFromTestCase(TestTemplatePythonModule))
 
