@@ -6,7 +6,7 @@ networks:
     name: template_python
 
 services:
-  python:
+  template_python:
     build:
       context: ./Dockerfile
     container_name: template_python_docker
