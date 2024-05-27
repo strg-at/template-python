@@ -1,4 +1,3 @@
-"""Python template module."""
 from typing import Dict
 import json
 
