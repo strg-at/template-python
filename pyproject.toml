@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "template_python"
+version = "0.1.0"
+description = "Template Python used in STRG python projects"
+authors = ["strg.at"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.26.4"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+mypy = "^1.10.0"
+
+[tool.poetry.group.lsp-dev]
+optional = true
+
+[tool.poetry.group.lsp-dev.dependencies]
+ruff-lsp = "^0.0.53"
+pylsp-mypy = "^0.6.8"
+python-lsp-server = "^1.11.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# Refer
+# https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html#configuration-via-a-file
+[tool.black]
+# Specify here any specific rules.
+# For instance, this is if we want max. line-length to be 120:
+line-length = 120
+
+[tool.ruff]
+ignore = ["E501"]
+
+[tool.mypy]
+ignore_missing_imports = true
