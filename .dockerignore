@@ -1,0 +1,6 @@
+*
+!template_python
+!mock_data
+!test
+!pyproject.toml
+!README.md
