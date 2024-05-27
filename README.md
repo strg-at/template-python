@@ -109,7 +109,8 @@ poetry install --with dev --with lsp-dev
 
 ##### Generating a requirements.txt
 
-You can also generate a `requirements.txt` with poetry. First, install the `poetry-plugin-export`.
+You can also generate a `requirements.txt` with poetry. **NOTICE** that this is **not** mandatory at all, and should be done only for backward compatibility, IF necessary.
+First, install the `poetry-plugin-export`.
 This can be done in [several ways](https://python-poetry.org/docs/plugins/#using-plugins), depending on how you installed poetry.
 If you installed poetry via your package manager, then you should install the plugin via your package manager. For instance, on Archlinux:
 
