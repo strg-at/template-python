@@ -99,9 +99,17 @@ To add a dev dependency, run:
 poetry add dev-dep-package --group dev
 ```
 
+In this template, we also create one (or more) additional dependency group(s) to deal with IDE specific dependencies.
+For instance, if you want to use the [python-lsp-server](https://github.com/python-lsp/python-lsp-server), as well as installing
+its plugins for `mypy` etc., then you can use the `lsp-dev` group.
+
+```bash
+poetry install --with dev --with lsp-dev
+```
+
 ##### Generating a requirements.txt
 
-You can also generate a `requirements.txt` with poetry. This is **not** mandatory. First, install the `poetry-plugin-export`.
+You can also generate a `requirements.txt` with poetry. First, install the `poetry-plugin-export`.
 This can be done in [several ways](https://python-poetry.org/docs/plugins/#using-plugins), depending on how you installed poetry.
 If you installed poetry via your package manager, then you should install the plugin via your package manager. For instance, on Archlinux:
 
