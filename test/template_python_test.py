@@ -2,7 +2,7 @@
 
 import unittest
 
-from template_python.template_python_package.template_python_module import read_json_file
+from template_python.template_main import read_json_file
 
 from pprint import pprint
 
@@ -17,7 +17,7 @@ class TestTemplatePythonModule(unittest.TestCase):
             _type_: _description_
         """
         print("Setup")
-        self.filename = "template_python/mock_data/mock_web_portal.json"
+        self.filename = "mock_data/mock_web_portal.json"
         return super().setUp()
 
     def test_read_json_file(self):
