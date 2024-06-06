@@ -68,6 +68,12 @@ The virtual environment can be activated with:
 source $(poetry env info -p)/bin/activate
 ```
 
+Alternatively, you can also source the script `activate.sh` in this repo:
+
+```bash
+source ./activate.sh
+```
+
 This has the advantage, over standard venvs management, that you don't need to remember the name of the environment for any project.
 If you **don't want** the dev dependencies, simply install the project with `poetry install`.
 
