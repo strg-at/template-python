@@ -1,0 +1,134 @@
+# https://pre-commit.com
+default_install_hook_types: [commit-msg, pre-commit]
+default_stages: [pre-commit, manual]
+fail_fast: true
+repos:
+  - repo: meta
+    hooks:
+      - id: check-useless-excludes
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: python-check-mock-methods
+      - id: python-use-type-annotations
+      - id: rst-backticks
+      - id: rst-directive-colons
+      - id: rst-inline-touching-normal
+      - id: text-unicode-replacement-char
+  - repo: https://github.com/thlorenz/doctoc
+    rev: v2.2.0
+    hooks:
+      - id: doctoc
+        args:
+          - --update-only
+          - --maxlevel
+          - "3"
+          - --github
+          - --notitle
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-illegal-windows-names
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-vcs-permalinks
+      - id: check-xml
+      - id: debug-statements
+      - id: destroyed-symlinks
+      - id: detect-private-key
+      - id: end-of-file-fixer
+        types: [python]
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+      - id: name-tests-test
+        args: [--pytest-test-first]
+      - id: trailing-whitespace
+        types: [python]
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        args:
+          - --config-file
+          - .yamllint.yaml
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.5
+    hooks:
+      - id: remove-crlf
+      - id: remove-tabs
+  - repo: https://github.com/sirosen/texthooks
+    rev: 0.6.7
+    hooks:
+      - id: fix-smartquotes
+      - id: fix-ligatures
+      - id: forbid-bidi-controls
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.44.0
+    hooks:
+      - id: markdownlint-fix
+        args:
+          - --config
+          - .markdownlint.yaml
+  - repo: https://github.com/k8s-at-home/sops-pre-commit
+    rev: v2.1.1
+    hooks:
+      - id: forbid-secrets
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.0
+    hooks:
+      - id: gitleaks
+  - repo: https://github.com/renovatebot/pre-commit-hooks
+    rev: 39.142.0
+    hooks:
+      - id: renovate-config-validator
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1c
+    hooks:
+      - id: codespell
+        files: ^.*\.(py|c|h|md|rst|yaml|toml|yml)$
+  - repo: https://github.com/DetachHead/basedpyright-pre-commit-mirror
+    rev: v1.13.0 # or whatever the latest version is at the time
+    hooks:
+        - id: basedpyright
+  - repo: local
+    hooks:
+      {%- if with_conventional_commits %}
+      - id: commitizen
+        name: commitizen
+        entry: cz check
+        args: [--commit-msg-file]
+        require_serial: true
+        language: system
+        stages: [commit-msg]
+      {%- endif %}
+      {%- if project_type == 'app' %}
+      - id: uv-lock-check
+        name: uv lock check
+        entry: uv lock
+        args: ["--check"]
+        require_serial: true
+        language: system
+        pass_filenames: false
+      {%- endif %}
+      - id: ruff-check
+        name: ruff check
+        entry: ruff check
+        args: ["--force-exclude", "--extend-fixable={% if typing == 'strict' %}ERA001,F401,F841,T201,T203{% else %}F401,F841{% endif %}"{% if typing == 'optional' %}, "--fix-only"{% endif %}]
+        require_serial: true
+        language: system
+        types_or: [python, pyi]
+      - id: ruff-format
+        name: ruff format
+        entry: ruff format
+        args: [--force-exclude]
+        require_serial: true
+        language: system
+        types_or: [python, pyi]

@@ -1,0 +1,20 @@
+---
+name: test and build
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  docker-build:
+    name: build docker image
+    uses: "strg-at/github-workflows/.github/workflows/docker-build.yaml@fe8aec8df10849c97cc87d1d2e1448d03121aceb" # v1.10.0
+    with:
+      runner: '["agents-runners"]'

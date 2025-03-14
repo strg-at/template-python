@@ -33,10 +33,6 @@ notebooks/
 # mise
 mise.local.toml
 
-# mypy
-.dmypy.json
-.mypy_cache/
-
 # Node.js
 node_modules/
 
@@ -61,9 +57,11 @@ dist/
 
 # Terraform
 .terraform/
+{%- if project_type == 'package' %}
+
+# uv
+uv.lock
+{%- endif %}
 
 # VS Code
 .vscode/
-
-# Default template
-my-project/
