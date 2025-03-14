@@ -1,4 +1,7 @@
 _subdirectory: template
+_exclude:
+    - "{% if _copier_operation == 'update' -%}src/{% endif %}"
+    - "{% if _copier_operation == 'update' -%}tests/{% endif %}"
 
 project_type:
   type: str
