@@ -1,0 +1,174 @@
+_subdirectory: template
+_exclude:
+    - "{% if _copier_operation == 'update' -%}src/{% endif %}"
+    - "{% if _copier_operation == 'update' -%}tests/{% endif %}"
+
+project_type:
+  type: str
+  help: Is this project a package or an app?
+  choices:
+    - app
+    - package
+  default: package
+
+project_name:
+  type: str
+  help: What is your {{ project_type }}'s name?
+  placeholder: "{% if project_type == 'app' %}My App{% else %}My Package{% endif %}"
+  validator: >-
+    {% if not project_name.strip() %}
+    Invalid project name
+    {% endif %}
+
+project_description:
+  type: str
+  help: What does your {{ project_type }} do in one sentence?
+  placeholder: A Python {{ project_type }} that reticulates splines.
+  validator: >-
+    {% if not project_description.strip() %}
+    Invalid project description
+    {% endif %}
+
+project_url:
+  type: str
+  help: What is the URL of your project's repository?
+  placeholder: https://github.com/strg-at/{{ project_type }}
+  validator: >-
+    {% if not project_url.startswith("https://") %}
+    Invalid project URL
+    {% endif %}
+
+author_name:
+  type: str
+  help: What is the name of your {{ project_type }}'s primary author?
+  placeholder: John Smith
+  validator: >-
+    {% if not author_name %}
+    Invalid author name
+    {% endif %}
+
+author_email:
+  type: str
+  help: What is the email address of your {{ project_type }}'s primary author?
+  placeholder: john@strg.at
+  validator: >-
+    {% if not "@" in author_email %}
+    Invalid author email address
+    {% endif %}
+
+python_version:
+  type: str
+  help: "{% if project_type == 'app' %}Which Python version should your app use?{% else %}What is the minimum Python version your package should support?{% endif %}"
+  default: "{% if project_type == 'app' %}3.12{% else %}3.10{% endif %}"
+
+typing:
+  type: str
+  help: Do you want to use optional or strict typing and linting?
+  choices:
+    Optional: optional
+    Strict: strict
+  default: optional
+
+with_conventional_commits:
+  type: bool
+  help: Do you want to follow the Conventional Commits standard (https://www.conventionalcommits.org) for your commit messages?
+  default: true
+
+with_fastapi_api:
+  type: bool
+  help: Does your app need a FastAPI API?
+  default: false
+  when: "{{ project_type == 'app' }}"
+
+with_typer_cli:
+  type: bool
+  help: Does your {{ project_type }} need a Typer CLI?
+  default: false
+
+project_name_kebab_case:
+  when: false
+  default: "{{ project_name | lower | replace(' ', '-') }}"
+
+project_name_snake_case:
+  when: false
+  default: "{{ project_name | lower | replace(' ', '_') }}"
+
+# -------------------------------------------------------------------
+# Deploy Pipeline Configuration
+# -------------------------------------------------------------------
+configure_deploy_pipeline:
+  type: bool
+  help: Do you want to configure deploy pipeline now?
+  default: false
+
+workflow_name:
+  type: str
+  help: What is the workflow name for deployment?
+  default: "ship and deploy"
+  when: "{{ configure_deploy_pipeline }}"
+
+source_path:
+  type: str
+  help: What is the source path for the deploy workflow?
+  default: "behave-collaborative-filtering-service"
+  when: "{{ configure_deploy_pipeline }}"
+
+docker_registry:
+  type: str
+  help: What is the Docker registry URL?
+  default: "europe-west3-docker.pkg.dev"
+  when: "{{ configure_deploy_pipeline }}"
+
+gcp_project:
+  type: str
+  help: What is the GCP project identifier?
+  default: "logical-sled-220910"
+  when: "{{ configure_deploy_pipeline }}"
+
+docker_repository:
+  type: str
+  help: What is the Docker repository name?
+  default: "strg-docker"
+  when: "{{ configure_deploy_pipeline }}"
+
+workload_identity_provider:
+  type: str
+  help: What is the workload identity provider?
+  default: "projects/585630107782/locations/global/workloadIdentityPools/github/providers/github-oidc-provider"
+  when: "{{ configure_deploy_pipeline }}"
+
+service_account:
+  type: str
+  help: What is the service account for deployment?
+  default: "github-artifactregistry@logical-sled-220910.iam.gserviceaccount.com"
+  when: "{{ configure_deploy_pipeline }}"
+
+integration_dispatch_repo:
+  type: str
+  help: What is the repository for integration dispatch?
+  default: "strg-at/agents-flux-cluster"
+  when: "{{ configure_deploy_pipeline }}"
+
+production_dispatch_repo:
+  type: str
+  help: What is the repository for production dispatch?
+  default: "strg-at/dav-flux-cluster"
+  when: "{{ configure_deploy_pipeline }}"
+
+env_strg_integration:
+  type: str
+  help: What is the environment name for integration?
+  default: "strg-integration"
+  when: "{{ configure_deploy_pipeline }}"
+
+env_release_candidate:
+  type: str
+  help: What is the environment name for release candidate?
+  default: "release-candidate"
+  when: "{{ configure_deploy_pipeline }}"
+
+env_production:
+  type: str
+  help: What is the environment name for production?
+  default: "production"
+  when: "{{ configure_deploy_pipeline }}"

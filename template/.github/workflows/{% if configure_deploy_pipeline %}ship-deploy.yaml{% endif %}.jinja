@@ -1,0 +1,111 @@
+---
+name: {{ workflow_name }}
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*.*.*"
+      - "*.*.*"
+    paths-ignore:
+      - .github/**
+
+# Prevent concurrent builds on the same SHA for the repo
+concurrency:
+  group: {% raw %}${{ github.repository }}-{% endraw %}{% raw %}${{ github.sha }}{% endraw %}
+
+env:
+  ENVIRONMENT: null
+
+jobs:
+  environment:
+    runs-on: ["agents-runners"]
+    outputs:
+      target: {% raw %}${{ env.ENVIRONMENT }}{% endraw %}
+    steps:
+      - name: set env to {{ env_strg_integration }}
+        if: {% raw %}${{ startsWith(github.ref, 'refs/heads/main') }}{% endraw %}
+        run: |
+          echo "ENVIRONMENT={{ env_strg_integration }}" >> $GITHUB_ENV
+      - name: set env to {{ env_release_candidate }}
+        if: {% raw %}${{ startsWith(github.ref, 'refs/tags/') && (contains(github.ref, '-rc') || contains(github.ref, 'v0.')) }}{% endraw %}
+        run: |
+          echo "ENVIRONMENT={{ env_release_candidate }}" >> $GITHUB_ENV
+      - name: set env to {{ env_production }}
+        if: {% raw %}${{ startsWith(github.ref, 'refs/tags/') && !contains(github.ref, '-rc') && !contains(github.ref, 'v0.') }}{% endraw %}
+        run: |
+          echo "ENVIRONMENT={{ env_production }}" >> $GITHUB_ENV
+
+  check-image-exists:
+    uses: "strg-at/github-workflows/.github/workflows/docker-image-exists-google.yaml@fe8aec8df10849c97cc87d1d2e1448d03121aceb"
+    with:
+      runner: '["agents-runners"]'
+      workload-identity-provider: "{{ workload_identity_provider }}"
+      service-account: "{{ service_account }}"
+      registry: "{{ docker_registry }}"
+      gcp: "{{ gcp_project }}"
+      repository: "{{ docker_repository }}"
+      subpath: "{{ source_path }}"
+
+  docker-build-push:
+    needs: [check-image-exists]
+    if: {% raw %}${{ needs.check-image-exists.outputs.tag == 'not found' }}{% endraw %}
+    name: "docker build"
+    uses: "strg-at/github-workflows/.github/workflows/docker-build-push-google.yaml@fe8aec8df10849c97cc87d1d2e1448d03121aceb"
+    with:
+      runner: '["agents-runners"]'
+      workload-identity-provider: "{{ workload_identity_provider }}"
+      service-account: "{{ service_account }}"
+      registry: "{{ docker_registry }}"
+      gcp: "{{ gcp_project }}"
+      repository: "{{ docker_repository }}"
+      subpath: "{{ source_path }}"
+      tags: |
+        type=ref,event=tag,priority=300
+        type=sha,prefix={% raw %}{{date 'YYMMDD-HHmmss'}}{% endraw %}-,priority=200
+        {% raw %}${{ github.sha }}{% endraw %}, priority=100
+
+  tag-image-google:
+    needs: [check-image-exists]
+    if: {% raw %}${{ needs.check-image-exists.outputs.tag == 'found' }}{% endraw %}
+    name: "retag image"
+    uses: "strg-at/github-workflows/.github/workflows/tag-image-google.yaml@fe8aec8df10849c97cc87d1d2e1448d03121aceb"
+    with:
+      runner: '["agents-runners"]'
+      workload-identity-provider: "{{ workload_identity_provider }}"
+      service-account: "{{ service_account }}"
+      registry: "{{ docker_registry }}"
+      gcp: "{{ gcp_project }}"
+      repository: "{{ docker_repository }}"
+      source-path: "{{ source_path }}"
+      target-path: "{{ source_path }}"
+
+  integration-dispatch:
+    needs: [environment, docker-build-push, tag-image-google]
+    if: {% raw %}${{ always() && (needs.docker-build-push.result == 'success' || needs.tag-image-google.result == 'success') && needs.environment.outputs.target == 'strg-integration' }}{% endraw %}
+    name: {% raw %}${{ needs.environment.outputs.target }}{% endraw %}
+    uses: "strg-at/github-workflows/.github/workflows/repo-dispatch.yaml@fe8aec8df10849c97cc87d1d2e1448d03121aceb"
+    with:
+      runner: '["agents-runners"]'
+      tag: {% raw %}${{ github.sha }}{% endraw %}
+      repository: "{{ integration_dispatch_repo }}"
+      dispatch-event: {% raw %}${{ needs.environment.outputs.target }}{% endraw %}-{{ source_path }}-tag-update
+    secrets:
+      github-app-id: {% raw %}${{ secrets.STRG_BOT_GITHUB_APP_ID }}{% endraw %}
+      github-app-key: {% raw %}${{ secrets.STRG_BOT_GITHUB_PEM }}{% endraw %}
+
+  production-dispatch:
+    needs: [environment, docker-build-push, tag-image-google]
+    if: {% raw %}${{ always() && (needs.docker-build-push.result == 'success' || needs.tag-image-google.result == 'success') && needs.environment.outputs.target == 'production' }}{% endraw %}
+    name: {% raw %}${{ needs.environment.outputs.target }}{% endraw %}
+    uses: "strg-at/github-workflows/.github/workflows/repo-dispatch.yaml@fe8aec8df10849c97cc87d1d2e1448d03121aceb"
+    with:
+      runner: '["agents-runners"]'
+      tag: {% raw %}${{ github.ref_name }}{% endraw %}
+      repository: "{{ production_dispatch_repo }}"
+      dispatch-event: {% raw %}${{ needs.environment.outputs.target }}{% endraw %}-daz-{{ source_path }}-tag-update
+    secrets:
+      github-app-id: {% raw %}${{ secrets.STRG_BOT_GITHUB_APP_ID }}{% endraw %}
+      github-app-key: {% raw %}${{ secrets.STRG_BOT_GITHUB_PEM }}{% endraw %}

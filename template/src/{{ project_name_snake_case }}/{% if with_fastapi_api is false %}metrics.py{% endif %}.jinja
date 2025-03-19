@@ -1,0 +1,11 @@
+from prometheus_client import start_http_server, Summary, Counter, Gauge
+
+# Define shared Prometheus metrics.
+# REQUEST_TIME = Summary("request_processing_seconds", "Time spent processing a request")
+# TRAINING_PROGRESS = Gauge("model_training_progress", "Training progress", ["phase"])
+# FORECAST_PROGRESS = Gauge("forecast_generation_progress", "Forecast generation progress", ["phase"])
+# ERROR_COUNTER = Counter("error_count", "Number of errors by service", ["service"])
+
+def start_metrics_server(port: int = 8000):
+    """Start the Prometheus metrics HTTP server."""
+    start_http_server(port)

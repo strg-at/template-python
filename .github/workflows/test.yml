@@ -1,0 +1,68 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test-copier:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        project-type: ["app", "package"]
+        typing: ["optional", "strict"]
+
+    name: "Copier: Python ${{ matrix.python-version }} ${{ matrix.project-type }} with ${{ matrix.typing }} typing"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: substrate
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "**/uv.lock"
+
+      - name: Scaffold Python project
+        run: |
+          uvx copier copy --vcs-ref=HEAD substrate my-project \
+            --defaults \
+            --data project_type="${{ matrix.project-type }}" \
+            --data project_name="My Project" \
+            --data project_description="A Python ${{ matrix.project-type }} that reticulates splines." \
+            --data project_url="https://github.com/strg-at/repo" \
+            --data author_name="John Smith" \
+            --data author_email="john@example.com" \
+            --data python_version="3.10" \
+            --data typing="${{ matrix.typing }}" \
+            --data with_fastapi_api=true \
+            --data with_typer_cli=true
+          cd my-project
+          git config --global init.defaultBranch main
+          git init
+          git checkout -b test
+          git add .
+
+      - name: Lint and test project
+        uses: devcontainers/ci@v0.3
+        with:
+          subFolder: ./my-project/
+          runCmd: |
+            uv lock
+            poe lint
+            poe test
+
+      - name: Build app Docker image
+        if: ${{ matrix.project-type == 'app' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ./my-project/
+          target: app
