@@ -1,75 +1,82 @@
 # syntax=docker/dockerfile:1
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm AS dev
 
-# Create and activate a virtual environment [1].
-# [1] https://docs.astral.sh/uv/concepts/projects/config/#project-environment-path
-ENV VIRTUAL_ENV=/opt/venv
-ENV PATH=$VIRTUAL_ENV/bin:$PATH
-ENV UV_PROJECT_ENVIRONMENT=$VIRTUAL_ENV
+#############################
+# Development Image (dev)
+#############################
+FROM python:3.12-slim AS dev
 
-# Tell Git that the workspace is safe to avoid 'detected dubious ownership in repository' warnings.
+# Install essential packages (sudo, git, curl, build tools) with apt cache mounts.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends sudo git curl build-essential && \
+    rm -rf /var/lib/apt/lists/*
+
+# Tell Git that the workspace is safe.
 RUN git config --system --add safe.directory '*'
 
-# Create a non-root user and give it passwordless sudo access [1].
-# [1] https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user
-RUN --mount=type=cache,target=/var/cache/apt/ \
-    --mount=type=cache,target=/var/lib/apt/ \
-    groupadd --gid 1000 user && \
-    useradd --create-home --no-log-init --gid 1000 --uid 1000 --shell /usr/bin/bash user && \
-    chown user:user /opt/ && \
-    apt-get update && apt-get install --no-install-recommends --yes sudo && \
-    echo 'user ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/user && chmod 0440 /etc/sudoers.d/user
-USER user
-
-# Configure the non-root user's shell.
-RUN mkdir ~/.history/ && \
-    echo 'HISTFILE=~/.history/.bash_history' >> ~/.bashrc && \
-    echo 'bind "\"\e[A\": history-search-backward"' >> ~/.bashrc && \
-    echo 'bind "\"\e[B\": history-search-forward"' >> ~/.bashrc && \
-    echo 'eval "$(starship init bash)"' >> ~/.bashrc
-
-FROM python:3.12-slim AS app
-
-# Configure Python to print tracebacks on crash [1], and to not buffer stdout and stderr [2].
-# [1] https://docs.python.org/3/using/cmdline.html#envvar-PYTHONFAULTHANDLER
-# [2] https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUNBUFFERED
-ENV PYTHONFAULTHANDLER=1
-ENV PYTHONUNBUFFERED=1
-
-# Remove docker-clean so we can manage the apt cache with the Docker build cache.
-RUN rm /etc/apt/apt.conf.d/docker-clean
-
-# Install compilers that may be required for certain packages or platforms.
-RUN --mount=type=cache,target=/var/cache/apt/ \
-    --mount=type=cache,target=/var/lib/apt/ \
-    apt-get update && \
-    apt-get install --no-install-recommends --yes build-essential
-
-# Create a non-root user and switch to it [1].
-# [1] https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user
+# Create a non-root user with passwordless sudo (for VS Code Dev Container compatibility).
 RUN groupadd --gid 1000 user && \
-    useradd --create-home --no-log-init --gid 1000 --uid 1000 user
+    useradd --create-home --no-log-init --uid 1000 --gid 1000 --shell /bin/bash user && \
+    echo 'user ALL=(ALL) NOPASSWD:ALL' | tee /etc/sudoers.d/user && \
+    chmod 0440 /etc/sudoers.d/user
+
 USER user
 
-# Set the working directory.
-WORKDIR /workspaces/python-app-template/
+# Configure the non-root user's shell (history and Starship prompt).
+RUN mkdir -p /home/user/.history && \
+    echo 'HISTFILE=/home/user/.history/.bash_history' >> /home/user/.bashrc && \
+    echo 'bind "\"\e[A\": history-search-backward"' >> /home/user/.bashrc && \
+    echo 'bind "\"\e[B\": history-search-forward"' >> /home/user/.bashrc && \
+    echo 'eval "$(starship init bash)"' >> /home/user/.bashrc
 
-# Copy the app source code to the working directory.
+# Set the working directory as expected by VS Code Dev Containers.
+WORKDIR /workspaces/python-app-template
+
+# Install Poetry using pip.
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/home/user/.local/bin:$PATH" \
+    POETRY_VIRTUALENVS_IN_PROJECT=1 \
+    POETRY_NO_INTERACTION=1
+
+# Copy dependency specification files first to leverage Docker layer caching.
+COPY --chown=user:user pyproject.toml poetry.lock* ./
+
+# Install all dependencies (including dev dependencies) using Poetry.
+# A cache mount is used to speed up repeated installs.
+RUN --mount=type=cache,target=/home/user/.cache/pypoetry \
+    poetry install
+
+# Copy the remainder of the source code.
 COPY --chown=user:user . .
 
-# Install the application and its dependencies [1].
-# [1] https://docs.astral.sh/uv/guides/integration/docker/#optimizations
-RUN --mount=type=cache,uid=1000,gid=1000,target=/home/user/.cache/uv \
-    --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
-    uv sync \
-    --all-extras \
-    --compile-bytecode \
-    --frozen \
-    --link-mode copy \
-    --no-dev \
-    --no-editable \
-    --python-preference only-system
+# Ensure the virtual environment's binaries are in PATH.
+ENV PATH="/workspaces/python-app-template/.venv/bin:$PATH"
 
-# Expose the app.
-ENTRYPOINT ["/workspaces/python-app-template/.venv/bin/python-app-template"]
+# For VS Code dev containers, the default command is to launch an interactive shell.
+CMD ["bash"]
+
+#############################
+# Runtime Image (app)
+#############################
+FROM python:3.12-slim AS app
+
+# Minimal runtime: install only essential system dependencies.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user for security.
+RUN groupadd --gid 1000 user && \
+    useradd --create-home --no-log-init --uid 1000 --gid 1000 user
+USER user
+
+WORKDIR /app
+
+# Copy the entire application (including the in‑project virtual environment) from the dev stage.
+COPY --from=dev /workspaces/python-app-template /app
+
+# Ensure the virtual environment's binaries are available.
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Expose the CLI command as the container entrypoint.
+ENTRYPOINT ["python-app-template"]
 CMD []

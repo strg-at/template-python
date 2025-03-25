@@ -4,9 +4,9 @@ import asyncio
 import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from prometheus_fastapi_instrumentator import Instrumentator
 
 from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 
 
 @asynccontextmanager
@@ -22,6 +22,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
 app = FastAPI(lifespan=lifespan)
 
 Instrumentator().instrument(app).expose(app)
+
 
 @app.get("/compute")
 async def compute(n: int = 42) -> int:

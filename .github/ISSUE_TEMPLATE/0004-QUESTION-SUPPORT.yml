@@ -1,6 +1,7 @@
+---
 name: Question/Support
 description: Ask for help from the developers
-labels: [ "support" ]
+labels: ["support"]
 
 body:
   - type: textarea

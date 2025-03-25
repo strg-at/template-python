@@ -3,6 +3,8 @@
 default_install_hook_types: [commit-msg, pre-commit]
 default_stages: [pre-commit, manual]
 fail_fast: true
+default_language_version:
+  python: python3  # Use the Python version from poetry's venv
 repos:
   - repo: meta
     hooks:
@@ -25,7 +27,6 @@ repos:
           - --maxlevel
           - "3"
           - --github
-          - --notitle
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -35,6 +36,7 @@ repos:
       - id: check-case-conflict
       - id: check-docstring-first
       - id: check-illegal-windows-names
+      - id: check-case-conflict
       - id: check-json
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
@@ -95,36 +97,40 @@ repos:
     hooks:
       - id: codespell
         files: ^.*\.(py|c|h|md|rst|yaml|toml|yml)$
-  - repo: https://github.com/DetachHead/basedpyright-pre-commit-mirror
-    rev: v1.13.0 # or whatever the latest version is at the time
+  - repo: https://github.com/python-poetry/poetry
+    rev: '2.1.1'
+    hooks:
+      - id: poetry-check
+      - id: poetry-lock
+      - id: poetry-install
+  - repo: local
     hooks:
       - id: basedpyright
+        name: basedpyright
+        description: "pyright fork with various type checking improvements, improved vscode support and pylance features built into the language server"
+        entry: poetry run basedpyright
+        language: system
+        require_serial: true
+        types_or: [python, pyi]
   - repo: local
     hooks:
       - id: commitizen
         name: commitizen
-        entry: cz check
+        entry: poetry run cz check
         args: [--commit-msg-file]
         require_serial: true
         language: system
         stages: [commit-msg]
-      # - id: uv-lock-check
-      #   name: uv lock check
-      #   entry: uv lock
-      #   args: ["--check"]
-      #   require_serial: true
-      #   language: system
-      #   pass_filenames: false
       - id: ruff-check
         name: ruff check
-        entry: ruff check
-        args: ["--force-exclude", "--extend-fixable=ERA001,F401,F841,T201,T203"]
+        entry: poetry run ruff check
+        args: ["--force-exclude"]
         require_serial: true
         language: system
         types_or: [python, pyi]
       - id: ruff-format
         name: ruff format
-        entry: ruff format
+        entry: poetry run ruff format
         args: [--force-exclude]
         require_serial: true
         language: system

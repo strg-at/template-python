@@ -1,6 +1,7 @@
+---
 name: Bug report
 description: Help us improve Python App Template
-labels: [ "bug" ]
+labels: ["bug"]
 
 body:
   - type: markdown
