@@ -1,226 +1,89 @@
-<!-- markdownlint-disable MD041 -->
-<!-- markdownlint-disable MD033 -->
-<!-- markdownlint-disable MD028 -->
+[![Open in Dev Containers](https://img.shields.io/static/v1?label=Dev%20Containers&message=Open&color=blue&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTE3IDE2VjdsLTYgNU0yIDlWOGwxLTFoMWw0IDMgOC04aDFsNCAyIDEgMXYxNGwtMSAxLTQgMmgtMWwtOC04LTQgM0gzbC0xLTF2LTFsMy0zIi8+PC9zdmc+)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/strg-at/template-python) [![Open in GitHub Codespaces](https://img.shields.io/static/v1?label=GitHub%20Codespaces&message=Open&color=blue&logo=github)](https://github.com/codespaces/new/strg-at/template-python)
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
-[![pre-commit][pre-commit-shield]][pre-commit-url]
-[![taskfile][taskfile-shield]][taskfile-url]
-
-# Project
-
-Short project description
+# Python App Template
 
 <details>
   <summary style="font-size:1.2em;">Table of Contents</summary>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Code-Style](#code-style)
-- [Getting Started](#getting-started)
-  - [Using Poetry](#using-poetry)
-  - [Prerequisties](#prerequisties)
-  - [Initialize repository](#initialize-repository)
-  - [Coverage report](#coverage-report)
-  - [Pre-commit](#pre-commit)
-- [Configuration](#configuration)
-  - [Preparation](#preparation)
-- [Known Issues](#known-issues)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 </details>
 
-## Code-Style
+A Python app that reticulates splines.
 
-<!-- TBD -->
+## Installing
 
-## Getting Started
+To install this package, run:
 
-This Python project is managed via [Poetry](https://python-poetry.org/), and leverages the [pyproject.toml](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
-configuration file, rather than the older `setup.py`.
-The `pyproject.toml` configuration file can be and is also used to store 3rd party tools configurations, such as black, ruff, mypy etc.
-
-### Using Poetry
-
-In order to use poetry, you should [install it first](https://python-poetry.org/docs/#installing-with-pipx). If your OS package manager has
-a `python-poetry` package, you might also choose to install Poetry that way. **Notice** that if you do this, you should make sure that your OS
-also ships all the necessary plugins you might want to use (most importantly, `poetry-plugin-export`). As of the time of writing, Archlinux does.
-
-#### Setup
-
-Install the project, by using:
-
-```bash
-poetry install --with dev
+```sh
+pip install python-app-template
 ```
 
-This will install the necessary dependencies **plus the dev dependencies**, any binary shipped with the project, as well as create a dedicated virtual environment.  
-The virtual environment can be activated with:
+## Using
 
-```bash
-source $(poetry env info -p)/bin/activate
+To view the CLI help information, run:
+
+```sh
+python-app-template --help
 ```
 
-Alternatively, you can also source the script `activate.sh` in this repo:
+## Contributing
 
-```bash
-source ./activate.sh
-```
+<details>
+<summary>Prerequisites</summary>
 
-This has the advantage, over standard venvs management, that you don't need to remember the name of the environment for any project.
-If you **don't want** the dev dependencies, simply install the project with `poetry install`.
+1. [Generate an SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key) and [add the SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+1. Configure SSH to automatically load your SSH keys:
 
-You can also install the project with `pip`, since Poetry is [PEP-517 compliant](https://python-poetry.org/docs/pyproject/#poetry-and-pep-517):
+    ```sh
+    cat << EOF >> ~/.ssh/config
 
-```bash
-pip install .
-# OR, using git+ssh
-pip install git+ssh://git@github.com:strg-at/template-python.git
-```
+    Host *
+      AddKeysToAgent yes
+      IgnoreUnknown UseKeychain
+      UseKeychain yes
+      ForwardAgent yes
+    EOF
+    ```
 
-#### Dependency management
+1. [Install Docker Desktop](https://www.docker.com/get-started).
+1. [Install VS Code](https://code.visualstudio.com/) and [VS Code's Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers). Alternatively, install [PyCharm](https://www.jetbrains.com/pycharm/download/).
+1. _Optional:_ install a [Nerd Font](https://www.nerdfonts.com/font-downloads) such as [FiraCode Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode) and [configure VS Code](https://github.com/tonsky/FiraCode/wiki/VS-Code-Instructions) or [PyCharm](https://github.com/tonsky/FiraCode/wiki/Intellij-products-instructions) to use it.
 
-To add a dependency, simply run:
+<details open>
+<summary>Development environments</summary>
 
-```bash
-poetry add 3rd-party-package
-```
+The following development environments are supported:
 
-To remove a dependency, run:
+1. ⭐️ _GitHub Codespaces_: click on [Open in GitHub Codespaces](https://github.com/codespaces/new/strg-at/template-python) to start developing in your browser.
+1. ⭐️ _VS Code Dev Container (with container volume)_: click on [Open in Dev Containers](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/strg-at/template-python) to clone this repository in a container volume and create a Dev Container with VS Code.
+1. ⭐️ _uv_: clone this repository and run the following from root of the repository:
 
-```bash
-poetry remove 3rd-party-package
-```
+    ```sh
+    # Create and install a virtual environment
+    uv sync --python 3.12 --all-extras
 
-To add a dev dependency, run:
+    # Activate the virtual environment
+    source .venv/bin/activate
 
-```bash
-poetry add dev-dep-package --group dev
-```
+    # Install the pre-commit hooks
+    task pre-commit:init
+    ```
 
-In this template, we also create one (or more) additional dependency group(s) to deal with IDE specific dependencies.
-For instance, if you want to use the [python-lsp-server](https://github.com/python-lsp/python-lsp-server), as well as installing
-its plugins for `mypy` etc., then you can use the `lsp-dev` group.
+1. _VS Code Dev Container_: clone this repository, open it with VS Code, and run <kbd>Ctrl/⌘</kbd> + <kbd>⇧</kbd> + <kbd>P</kbd> → _Dev Containers: Reopen in Container_.
+1. _PyCharm Dev Container_: clone this repository, open it with PyCharm, [create a Dev Container with Mount Sources](https://www.jetbrains.com/help/pycharm/start-dev-container-inside-ide.html), and [configure an existing Python interpreter](https://www.jetbrains.com/help/pycharm/configuring-python-interpreter.html#widget) at `/opt/venv/bin/python`.
 
-```bash
-poetry install --with dev --with lsp-dev
-```
+</details>
 
-##### Generating a requirements.txt
+<details>
+<summary>Developing</summary>
 
-You can also generate a `requirements.txt` with poetry. **NOTICE** that this is **not** mandatory at all, and should be done only for backward compatibility, IF necessary.
-First, install the `poetry-plugin-export`.
-This can be done in [several ways](https://python-poetry.org/docs/plugins/#using-plugins), depending on how you installed poetry.
-If you installed poetry via your package manager, then you should install the plugin via your package manager. For instance, on Archlinux:
+- This project follows the [Conventional Commits](https://www.conventionalcommits.org/) standard to automate [Semantic Versioning](https://semver.org/) and [Keep A Changelog](https://keepachangelog.com/) with [Commitizen](https://github.com/commitizen-tools/commitizen).
+- Run `poe` from within the development environment to print a list of [Poe the Poet](https://github.com/nat-n/poethepoet) tasks available to run on this project.
+- Run `uv add {package}` from within the development environment to install a run time dependency and add it to `pyproject.toml` and `uv.lock`. Add `--dev` to install a development dependency.
+- Run `uv sync --upgrade` from within the development environment to upgrade all dependencies to the latest versions allowed by `pyproject.toml`. Add `--only-dev` to upgrade the development dependencies only.
+- Run `cz bump` to bump the app's version, update the `CHANGELOG.md`, and create a git tag. Then push the changes and the git tag with `git push origin main --tags`.
 
-```bash
-sudo pacman -S python-poetry-plugin-export
-```
-
-To generate the requirements, you can then run:
-
-```bash
-poetry export --without-hashes --format=requirements.txt > requirements.txt
-```
-
-#### Version management
-
-Poetry has some nice shortcuts to manage the project version. You can see them by running
-
-```bash
-poetry version --help
-```
-
-For instance, bumping to the next minor version can be done with:
-
-```bash
-poetry version minor
-```
-
-This would be a project from, e.g., `1.2` to `1.3`. A major bump can be done with:
-
-```bash
-poetry version major
-```
-
-Poetry can do more than this, consult the [documentation for more information](https://python-poetry.org/docs/).
-
-### Prerequisties
-
-Install pre-commit.
-
-- [pre-commit][pre-commit]
-- [yamllint][yamllint]
-- [taskfile][taskfile-url]
-
-### Initialize repository
-
-Pre-commit framework need to get initialized.
-
-```console
-task pre-commit:init
-```
-
-### Coverage report
-
-Run coverage report.
-
-```bash
-sh ./coverage_report.sh
-```
-
-```bash
-Name                                                                Stmts   Miss  Cover
----------------------------------------------------------------------------------------
-template_python/template_python_package/template_python_module.py       6      0   100%
-template_python/unittest/template_python_test.py                       18      1    94%
----------------------------------------------------------------------------------------
-TOTAL                                                                  24      1    96%
-
-```
-
-### Pre-commit
-
-Run the following to fix linting issues using pre-commit.
-
-```bash
-task pre-commit:run
-```
-
-Based on pre-commit gitleaks dependencies Go language needs to be installed.
-
-## Configuration
-
-### Preparation
-
-All changes require a PR and review. Create a new branch and reference a Jira ticket, f.e.
-
-```console
-git switch -c feature/INPRO-1-configure-resource
-```
-
-## Known Issues
-
-<!-- TBD -->
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-
-<!-- Links -->
-
-[pre-commit]: https://pre-commit.com/
-[yamllint]: https://github.com/adrienverge/yamllint
-
-<!-- Badges -->
-
-[pre-commit-shield]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit
-[pre-commit-url]: https://github.com/pre-commit/pre-commit
-[taskfile-url]: https://taskfile.dev/
-[taskfile-shield]: https://img.shields.io/badge/Taskfile-Enabled-brightgreen?logo=task
+</details>

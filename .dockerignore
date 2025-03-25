@@ -1,17 +1,8 @@
-# Ignore everything
-*
+# Caches
+.*_cache/
 
-# Allow files and directories
-!template_python
-!mock_data
-!test
-!pyproject.toml
-!README.md
+# Git
+.git/
 
-# Ignore unnecessary files inside allowed directories
-# This should go after the allowed directories
-**/*~
-**/*.log
-**/.DS_Store
-**/Thumbs.db
-**/__pycache__
+# Python
+.venv/

@@ -1,0 +1,26 @@
+_commit: 0aca15f
+_src_path: https://github.com/strg-at/template-python.git
+author_email: john@strg.at
+author_name: John Smith
+configure_deploy_pipeline: true
+docker_registry: europe-west3-docker.pkg.dev
+docker_repository: strg-docker
+env_production: production
+env_release_candidate: release-candidate
+env_strg_integration: strg-integration
+gcp_project: logical-sled-220910
+integration_dispatch_repo: strg-at/agents-flux-cluster
+production_dispatch_repo: strg-at/dav-flux-cluster
+project_description: A Python app that reticulates splines.
+project_name: Python App Template
+project_type: app
+project_url: https://github.com/strg-at/template-python
+python_version: '3.12'
+service_account: github-artifactregistry@logical-sled-220910.iam.gserviceaccount.com
+source_path: behave-collaborative-filtering-service
+typing: strict
+with_conventional_commits: true
+with_fastapi_api: true
+with_typer_cli: true
+workflow_name: ship and deploy
+workload_identity_provider: projects/585630107782/locations/global/workloadIdentityPools/github/providers/github-oidc-provider
