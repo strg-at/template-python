@@ -1,62 +1,28 @@
-# Coverage.py
-htmlcov/
-reports/
+# Firstly ignoring all
+*
 
-# Copier
-*.rej
+# Then whitelist the files that should be included
+!.releaserc.json
+!LICENSE
+!Taskfile.yaml
+!.pre-commit-config.yaml
+!Dockerfile
+!CODEOWNERS
+!pyproject.toml
+!.codespellrc
+!activate.sh
+!.editorconfig
+!README.md
+!{output_file}
+!.dockerignore
+!.gitignore
+!.yamllint.yaml
+!docker-compose.yml
+!.markdownlint.yaml
+!poetry.lock
 
-# Data
-*.csv*
-*.dat*
-*.pickle*
-*.xls*
-*.zip*
-data/
-
-# direnv
-.envrc
-
-# dotenv
-.env
-
-# Hypothesis
-.hypothesis/
-
-# Jupyter
-*.ipynb
-.ipynb_checkpoints/
-notebooks/
-
-# macOS
-.DS_Store
-
-# mise
-mise.local.toml
-
-# Node.js
-node_modules/
-
-# PyCharm
-.idea/
-
-# pyenv
-.python-version
-
-# pytest
-.pytest_cache/
-
-# Python
-__pycache__/
-*.egg-info/
-*.py[cdo]
-.venv/
-dist/
-
-# Ruff
-.ruff_cache/
-
-# Terraform
-.terraform/
-
-# VS Code
-.vscode/
+# Folders
+!.devcontainer
+!.github
+!src
+!tests

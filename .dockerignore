@@ -1,8 +1,14 @@
-# Caches
-.*_cache/
+# Firstly ignoring all
+*
 
-# Git
-.git/
+# Then whitelist the files that should be included
+!.releaserc.json
+!LICENSE
+!pyproject.toml
+!README.md
+!.dockerignore
+!poetry.lock
 
-# Python
-.venv/
+# Folders
+!src
+!tests
