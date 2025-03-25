@@ -1,1 +1,1 @@
-source .venv/bin/activate
+source $(poetry env info -p)/bin/activate

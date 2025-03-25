@@ -1,3 +1,4 @@
+---
 # https://pre-commit.com
 default_install_hook_types: [commit-msg, pre-commit]
 default_stages: [pre-commit, manual]
@@ -86,18 +87,18 @@ repos:
     hooks:
       - id: gitleaks
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 39.142.0
+    rev: 39.213.4
     hooks:
       - id: renovate-config-validator
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1c
+    rev: v2.4.1
     hooks:
       - id: codespell
         files: ^.*\.(py|c|h|md|rst|yaml|toml|yml)$
   - repo: https://github.com/DetachHead/basedpyright-pre-commit-mirror
     rev: v1.13.0 # or whatever the latest version is at the time
     hooks:
-        - id: basedpyright
+      - id: basedpyright
   - repo: local
     hooks:
       - id: commitizen
@@ -107,13 +108,13 @@ repos:
         require_serial: true
         language: system
         stages: [commit-msg]
-      - id: uv-lock-check
-        name: uv lock check
-        entry: uv lock
-        args: ["--check"]
-        require_serial: true
-        language: system
-        pass_filenames: false
+      # - id: uv-lock-check
+      #   name: uv lock check
+      #   entry: uv lock
+      #   args: ["--check"]
+      #   require_serial: true
+      #   language: system
+      #   pass_filenames: false
       - id: ruff-check
         name: ruff check
         entry: ruff check
