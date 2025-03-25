@@ -70,8 +70,10 @@ output = "reports/coverage.xml"
 
 [tool.basedpyright]  # https://docs.basedpyright.com/v1.28.1/configuration/config-files/
 include = ["src"]
-reportMissingImports ="error"reportMissingTypeStubs = false
-typeCheckingMode ="strict"pythonVersion = "3.12"
+reportMissingImports ="error"
+reportMissingTypeStubs = false
+typeCheckingMode ="strict"
+pythonVersion = "3.12"
 pythonPlatform = "Linux"
 
 [tool.pytest.ini_options]  # https://docs.pytest.org/en/latest/reference/reference.html#ini-options-ref
