@@ -10,5 +10,7 @@
 !poetry.lock
 
 # Folders
-!src
-!tests
+!src/
+!src/**
+!tests/**
+!tests/
