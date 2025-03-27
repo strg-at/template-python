@@ -1,7 +1,0 @@
-{
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  platform: "github",
-  username: "strg-bot[bot]",
-  gitAuthor: "strg-bot <115485955+strg-bot[bot]@users.noreply.github.com>",
-  repositories: ["strg-at/behave-collaborative-filtering-service"],
-}

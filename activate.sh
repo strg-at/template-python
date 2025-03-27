@@ -1,1 +1,1 @@
-$(poetry env activate)
+source $(poetry env info -p)/bin/activate

@@ -22,7 +22,15 @@
 !poetry.lock
 
 # Folders
-!.devcontainer
-!.github
-!src
-!tests
+!.devcontainer/
+!.devcontainer/**
+!.github/
+!.github/**
+!src/
+!src/**
+!tests/
+!tests/**
+!docs/
+!docs/**
+!scripts/
+!scripts/**

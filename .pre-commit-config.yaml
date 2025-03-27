@@ -1,8 +1,7 @@
 ---
 # https://pre-commit.com
-default_install_hook_types: [commit-msg, pre-commit]
-default_stages: [pre-commit, manual]
-fail_fast: true
+default_stages: [pre-commit, pre-push]
+fail_fast: false
 default_language_version:
   python: python3  # Use the Python version from poetry's venv
 repos:
