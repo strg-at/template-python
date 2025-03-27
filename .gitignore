@@ -20,6 +20,7 @@
 !docker-compose.yml
 !.markdownlint.yaml
 !poetry.lock
+!CHANGELOG.md
 
 # Folders
 !.devcontainer/
