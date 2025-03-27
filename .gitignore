@@ -9,7 +9,6 @@
 !Dockerfile
 !CODEOWNERS
 !pyproject.toml
-!.codespellrc
 !activate.sh
 !.editorconfig
 !README.md
