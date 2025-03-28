@@ -12,7 +12,6 @@
 !activate.sh
 !.editorconfig
 !README.md
-!{output_file}
 !.dockerignore
 !.gitignore
 !.yamllint.yaml

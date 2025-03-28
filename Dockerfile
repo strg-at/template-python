@@ -16,4 +16,4 @@ RUN pipx ensurepath && pipx install poetry==1.8.3 && poetry install
 
 RUN poetry run python -m unittest discover -s "test" -p "*test*.py"
 
-# EXPOSE 8080
+# EXPOSE <PORT NUMBER>
