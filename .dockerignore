@@ -1,17 +1,16 @@
-# Ignore everything
+# Firstly ignoring all
 *
 
-# Allow files and directories
-!template_python
-!mock_data
-!test
+# Then whitelist the files that should be included
+!.releaserc.json
+!LICENSE
 !pyproject.toml
 !README.md
+!.dockerignore
+!poetry.lock
 
-# Ignore unnecessary files inside allowed directories
-# This should go after the allowed directories
-**/*~
-**/*.log
-**/.DS_Store
-**/Thumbs.db
-**/__pycache__
+# Folders
+!src/
+!src/**
+!tests/**
+!tests/

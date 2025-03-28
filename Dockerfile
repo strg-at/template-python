@@ -1,4 +1,4 @@
-FROM python:3.11-alpine
+FROM python:3.12-alpine
 
 RUN apk add pipx
 
@@ -15,3 +15,5 @@ ENV PATH="/home/strg/.local/bin:$PATH"
 RUN pipx ensurepath && pipx install poetry==1.8.3 && poetry install
 
 RUN poetry run python -m unittest discover -s "test" -p "*test*.py"
+
+# EXPOSE <PORT NUMBER>
