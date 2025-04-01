@@ -124,17 +124,18 @@ repos:
         require_serial: true
         language: system
         stages: [commit-msg]
-      - id: ruff-check
-        name: ruff check
-        entry: poetry run ruff check
-        args: ["--force-exclude"]
-        require_serial: true
-        language: system
-        types_or: [python, pyi]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.11.2
+    hooks:
+      # Ignore config and fix only the import sorting.
+      - id: ruff
+        name: Fix import sorting
+        args: [--isolated, --fix, --select, "I,ICN"]
+      # Run the linter.
+      - id: ruff
+        name: Ruff lint
+        args: [--fix]
+      # Run the formatter.
       - id: ruff-format
-        name: ruff format
-        entry: poetry run ruff format
-        args: [--force-exclude]
-        require_serial: true
-        language: system
-        types_or: [python, pyi]
+        name: Ruff format

@@ -54,7 +54,7 @@ The following development environments are supported:
     poetry install
 
     # Activate the virtual environment
-    ./activate.sh
+    source ./activate.sh
 
     # Install the pre-commit hooks
     task pre-commit:init
