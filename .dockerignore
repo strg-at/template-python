@@ -10,7 +10,7 @@
 !poetry.lock
 
 # Folders
-!src/
-!src/**
+!python_app_template/
+!python_app_template/**
 !tests/**
 !tests/
