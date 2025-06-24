@@ -1,6 +1,6 @@
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "python-app-template"
@@ -35,26 +35,22 @@ issues = "https://github.com/strg-at/template-python/issues"
 [project.optional-dependencies]
 # Optional dependencies can be listed here.
 
-[tool.poetry.group.dev.dependencies]
-commitizen = ">=4.3.0"
-coverage = { version = ">=7.6.10", extras = ["toml"]}
-ipykernel = ">=6.29.4"
-ipython = ">=8.18.0"
-ipywidgets = ">=8.1.2"
-pdoc = ">=15.0.1"
-pre-commit = ">=4.0.1"
-pytest = ">=8.3.4"
-pytest-mock = ">=3.14.0"
-pytest-xdist = ">=3.6.1"
-ruff = ">=0.9.2"
-typeguard = ">=4.4.1"
-basedpyright = "^1.28.3"
-
-[tool.commitizen]  # https://commitizen-tools.github.io/commitizen/config/
-bump_message = "bump: v$current_version → v$new_version"
-tag_format = "v$version"
-update_changelog_on_bump = true
-version_provider = "pep621"
+[dependency-groups]
+dev = [
+    "basedpyright>=1.28.4",
+    "debugpy>=1.8.14",
+    "ipython>=9.0.2",
+    "ruff>=0.11.2",
+    "coverage>=7.6.10",
+    "ipykernel>=6.29.4",
+    "ipywidgets>=8.1.2",
+    "pdoc>=15.0.1",
+    "pre-commit>=4.0.1",
+    "pytest>=8.3.4",
+    "pytest-mock>=3.14.0",
+    "pytest-xdist>=3.6.1",
+    "typeguard>=4.4.1",
+]
 
 [tool.coverage.report]  # https://coverage.readthedocs.io/en/latest/config.html#report
 fail_under = 50
@@ -71,14 +67,11 @@ source = ["python_app_template"]
 [tool.coverage.xml]  # https://coverage.readthedocs.io/en/latest/config.html#xml
 output = "reports/coverage.xml"
 
-[tool.basedpyright]  # https://docs.basedpyright.com/v1.28.1/configuration/config-files/
-include = ["python_app_template"]
-reportMissingImports = "error"
-reportMissingTypeStubs = false
-typeCheckingMode = "strict"
-pythonVersion = "3.12"
-pythonPlatform = "Linux"
+[tool.basedpyright]
 venvPath = "."
+reportAny = false
+reportUnusedCallResult = false
+reportUnknownLambdaType = false
 
 [tool.pytest.ini_options]  # https://docs.pytest.org/en/latest/reference/reference.html#ini-options-ref
 addopts = "--color=yes --doctest-modules --exitfirst --failed-first --strict-config --strict-markers --verbosity=2 --junitxml=reports/pytest.xml"

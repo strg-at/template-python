@@ -101,25 +101,10 @@ repos:
       - id: codespell
         name: check commit message spelling
         stages: [commit-msg]
-  - repo: https://github.com/python-poetry/poetry
-    rev: '2.1.1'
-    hooks:
-      - id: poetry-check
-      - id: poetry-lock
-      - id: poetry-install
   - repo: https://github.com/DetachHead/basedpyright-pre-commit-mirror
     rev: v1.13.0
     hooks:
       - id: basedpyright
-  - repo: local
-    hooks:
-      - id: commitizen
-        name: commitizen
-        entry: poetry run cz check
-        args: [--commit-msg-file]
-        require_serial: true
-        language: system
-        stages: [commit-msg]
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
     rev: v0.11.2
