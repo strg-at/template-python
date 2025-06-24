@@ -107,15 +107,10 @@ repos:
       - id: poetry-check
       - id: poetry-lock
       - id: poetry-install
-  - repo: local
+  - repo: https://github.com/DetachHead/basedpyright-pre-commit-mirror
+    rev: v1.13.0
     hooks:
       - id: basedpyright
-        name: basedpyright
-        description: "pyright fork with various type checking improvements, improved vscode support and pylance features built into the language server"
-        entry: poetry run basedpyright
-        language: system
-        require_serial: true
-        types_or: [python, pyi]
   - repo: local
     hooks:
       - id: commitizen
