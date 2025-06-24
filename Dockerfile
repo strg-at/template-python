@@ -2,12 +2,12 @@ FROM python:3.12-alpine
 
 RUN apk add pipx
 
-WORKDIR template-python
+WORKDIR /app
 
 COPY . .
 
 RUN adduser -S strg \
-      && chown -R strg /template-python
+      && chown -R strg /app
 
 USER strg
 
