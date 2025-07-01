@@ -89,22 +89,15 @@ repos:
     rev: v8.21.0
     hooks:
       - id: gitleaks
-  - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 39.213.4
-    hooks:
-      - id: renovate-config-validator
-  - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
-    hooks:
-      - id: codespell
-        files: ^.*\.(py|c|h|md|rst|yaml|toml|yml)$
-      - id: codespell
-        name: check commit message spelling
-        stages: [commit-msg]
-  - repo: https://github.com/DetachHead/basedpyright-pre-commit-mirror
-    rev: v1.13.0
+  - repo: local
     hooks:
       - id: basedpyright
+        name: basedpyright
+        description: "pyright fork with various type checking improvements, improved vscode support and pylance features built into the language server"
+        entry: uv run basedpyright
+        language: system
+        require_serial: true
+        types_or: [python, pyi]
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
     rev: v0.11.2
@@ -116,6 +109,7 @@ repos:
       # Run the linter.
       - id: ruff
         name: Ruff lint
+      # Run the linter with fix.
         args: [--fix]
       # Run the formatter.
       - id: ruff-format

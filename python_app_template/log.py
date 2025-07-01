@@ -15,12 +15,3 @@ def setup_logging() -> None:
         format="{time:YYYY-MM-DD HH:mm:ss} [{level}] {name}: {message}",
         level="INFO",
     )
-
-
-def setup_app() -> None:
-    """Configure the application.
-
-    This function sets up logging and logs that the application is being set up.
-    """
-    setup_logging()
-    loguru.logger.info("Setting up the application")
