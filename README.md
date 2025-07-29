@@ -8,6 +8,7 @@
 
 - [Installing](#installing)
 - [Using](#using)
+- [Production](#production)
 - [Contributing](#contributing)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -18,16 +19,16 @@ A Python app that reticulates splines.
 
 ## Installing
 
-To install this package, run:
+To build this package, run:
 
 ```sh
-pip install python-app-template
+uv sync
 ```
 
-Alternatively, if you are developing the project, install its dependencies with Poetry:
+To develop the API has hot reload server use the Task command
 
 ```sh
-poetry install
+task dev:dev
 ```
 
 ## Using
@@ -36,6 +37,14 @@ To view the CLI help information, run:
 
 ```sh
 python-app-template --help
+```
+
+## Production
+
+In production the api should be started with
+
+```sh
+uv run gunicorn python_app_template.api:app
 ```
 
 ## Contributing

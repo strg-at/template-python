@@ -1,17 +1,49 @@
-"""Python App Template setup."""
+import logging
+import os
+import sys
 
-import loguru
+import structlog
 
 
-def setup_logging() -> None:
-    """Configure the logging format and level.
+def setup_logging():
+    log_format = os.getenv("LOG_FORMAT", "simple").lower()
 
-    This function removes the default loguru logger and adds a new sink that outputs
-    to the console with the specified format and logging level.
-    """
-    loguru.logger.remove()  # Remove default logger
-    loguru.logger.add(
-        sink=lambda msg: print(msg, end=""),  # Example sink; can be replaced with a file or other destination
-        format="{time:YYYY-MM-DD HH:mm:ss} [{level}] {name}: {message}",
-        level="INFO",
+    logging.basicConfig(
+        format="%(message)s",
+        stream=sys.stdout,
+        level=os.getenv("LOG_LEVEL", "DEBUG").upper(),
+        force=True,
+    )
+
+    if log_format == "simple":
+        processors = [
+            structlog.processors.TimeStamper(fmt="iso", utc=True, key="timestamp"),
+            structlog.stdlib.add_log_level,
+            structlog.stdlib.PositionalArgumentsFormatter(),
+            structlog.processors.StackInfoRenderer(),
+            structlog.processors.format_exc_info,
+            structlog.processors.dict_tracebacks,
+            structlog.dev.ConsoleRenderer(colors=True),
+        ]
+    else:  # JSON (cloud/container) format
+        processors = [
+            structlog.processors.TimeStamper(fmt="iso", utc=True, key="timestamp"),
+            structlog.stdlib.add_log_level,
+            structlog.stdlib.PositionalArgumentsFormatter(),
+            structlog.processors.StackInfoRenderer(),
+            structlog.processors.format_exc_info,
+            structlog.processors.dict_tracebacks,
+            structlog.processors.EventRenamer("message"),
+            lambda logger, method_name, event_dict: (
+                event_dict.update(severity=event_dict.pop("level", None)) or event_dict
+            ),
+            structlog.processors.JSONRenderer(),
+        ]
+
+    structlog.configure(
+        processors=processors,
+        context_class=dict,
+        logger_factory=structlog.stdlib.LoggerFactory(),
+        wrapper_class=structlog.stdlib.BoundLogger,
+        cache_logger_on_first_use=True,
     )

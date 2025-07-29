@@ -4,6 +4,13 @@ import asyncio
 
 import fastapi
 import prometheus_fastapi_instrumentator
+import structlog
+
+from python_app_template.log import setup_logging
+
+setup_logging()
+
+log = structlog.get_logger()
 
 app = fastapi.FastAPI()
 
@@ -38,6 +45,7 @@ async def compute(n: int = 42) -> int:
         int
             Fibonacci number at position n.
         """
+        log.debug("Computing Fibonacci")
         return n if n <= 1 else fibonacci(n - 1) + fibonacci(n - 2)
 
     result = await asyncio.to_thread(fibonacci, n)

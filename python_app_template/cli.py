@@ -3,6 +3,10 @@
 import rich
 import typer
 
+from python_app_template.log import setup_logging
+
+setup_logging()
+
 app = typer.Typer()
 
 
