@@ -47,5 +47,5 @@ task dev:cli -- --help
 In production the api should be started with
 
 ```sh
-uv run gunicorn python_app_template.api:app
+uv run gunicorn python_app_template.api:app -k uvicorn.workers.UvicornWorker
 ```

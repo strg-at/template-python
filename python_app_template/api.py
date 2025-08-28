@@ -46,7 +46,10 @@ async def compute(n: int = 42) -> int:
             Fibonacci number at position n.
         """
         log.debug("Computing Fibonacci")
-        return n if n <= 1 else fibonacci(n - 1) + fibonacci(n - 2)
+        a, b = 0, 1
+        for _ in range(n):
+            a, b = b, a + b
+        return a
 
     result = await asyncio.to_thread(fibonacci, n)
     return result
