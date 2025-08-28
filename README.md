@@ -10,6 +10,7 @@
 - [Development](#development)
   - [API](#api)
   - [CLI](#cli)
+- [Local venv](#local-venv)
 - [Production](#production)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -40,6 +41,21 @@ task dev:api
 
 ```sh
 task dev:cli -- --help
+```
+
+## Local venv
+
+To activate venv run
+
+```sh
+source .venv/bin/activate
+which python
+```
+
+deactivate
+
+```sh
+deactivate
 ```
 
 ## Production
