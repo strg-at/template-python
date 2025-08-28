@@ -1,8 +1,7 @@
 FROM python:3.13-alpine AS base
 
 RUN apk update && apk add --no-cache \
-    uv \
-    postgresql-client
+    uv
 
 WORKDIR /app
 
@@ -13,6 +12,7 @@ RUN adduser -S strg \
 
 USER strg
 
+# This makes sure the correct venv binaries will be used
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Development stage
