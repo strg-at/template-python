@@ -2,21 +2,12 @@
 # https://pre-commit.com
 default_stages: [pre-commit, pre-push]
 fail_fast: false
-default_language_version:
-  python: python3  # Use the Python version from poetry's venv
+
 repos:
   - repo: meta
     hooks:
       - id: check-useless-excludes
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.10.0
-    hooks:
-      - id: python-check-mock-methods
-      - id: python-use-type-annotations
-      - id: rst-backticks
-      - id: rst-directive-colons
-      - id: rst-inline-touching-normal
-      - id: text-unicode-replacement-char
+
   - repo: https://github.com/thlorenz/doctoc
     rev: v2.2.0
     hooks:
@@ -26,6 +17,7 @@ repos:
           - --maxlevel
           - "3"
           - --github
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -54,6 +46,7 @@ repos:
         args: [--pytest-test-first]
       - id: trailing-whitespace
         types: [python]
+
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.35.1
     hooks:
@@ -61,17 +54,20 @@ repos:
         args:
           - --config-file
           - .yamllint.yaml
+
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.5.5
     hooks:
       - id: remove-crlf
       - id: remove-tabs
+
   - repo: https://github.com/sirosen/texthooks
     rev: 0.6.7
     hooks:
       - id: fix-smartquotes
       - id: fix-ligatures
       - id: forbid-bidi-controls
+
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.44.0
     hooks:
@@ -81,14 +77,37 @@ repos:
           - .markdownlint.yaml
         # We would need to maintain format with changelog generator
         exclude: CHANGELOG.md
+
   - repo: https://github.com/k8s-at-home/sops-pre-commit
     rev: v2.1.1
     hooks:
       - id: forbid-secrets
+
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: v3.6.2
+    hooks:
+      - id: prettier
+        args:
+          - --ignore-path
+          - .prettierignore
+          - --config
+          - .prettierrc.yaml
+
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
     hooks:
       - id: gitleaks
+
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: python-check-mock-methods
+      - id: python-use-type-annotations
+      - id: rst-backticks
+      - id: rst-directive-colons
+      - id: rst-inline-touching-normal
+      - id: text-unicode-replacement-char
+
   - repo: local
     hooks:
       - id: basedpyright
@@ -98,6 +117,7 @@ repos:
         language: system
         require_serial: true
         types_or: [python, pyi]
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
     rev: v0.11.2
@@ -109,7 +129,7 @@ repos:
       # Run the linter.
       - id: ruff
         name: Ruff lint
-      # Run the linter with fix.
+        # Run the linter with fix.
         args: [--fix]
       # Run the formatter.
       - id: ruff-format

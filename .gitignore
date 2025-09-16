@@ -6,6 +6,8 @@
 !LICENSE
 !Taskfile.yaml
 !.pre-commit-config.yaml
+!.prettierignore
+!.prettierrc.yaml
 !Dockerfile
 !CODEOWNERS
 !pyproject.toml
