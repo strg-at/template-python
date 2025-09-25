@@ -37,6 +37,7 @@ issues = "https://github.com/strg-at/template-python/issues"
 
 [dependency-groups]
 dev = [
+    "uvicorn==0.37.0",
     "basedpyright>=1.28.4",
     "debugpy>=1.8.14",
     "ruff>=0.11.2",
