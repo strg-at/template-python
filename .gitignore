@@ -27,6 +27,8 @@
 !.devcontainer/**
 !.github/
 !.github/**
+!.taskfiles/
+!.taskfiles/**
 !python_app_template/
 !python_app_template/**
 !tests/
