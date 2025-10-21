@@ -3,6 +3,10 @@
 import rich
 import typer
 
+from python_app_template.log import setup_logging
+
+setup_logging()
+
 app = typer.Typer()
 
 
@@ -20,3 +24,7 @@ def fire(name: str = "Chell") -> None:
     None
     """
     rich.print(f"[bold red]Alert![/bold red] {name} fired [green]portal gun[/green] :boom:")
+
+
+if __name__ == "__main__":
+    app()

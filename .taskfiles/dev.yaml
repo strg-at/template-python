@@ -1,0 +1,45 @@
+---
+version: "3"
+
+tasks:
+  api:
+    desc: Build development Docker image and run uvicorn with hot reload (pass extra args to uvicorn)
+    vars:
+      IMAGE: python-app-template-dev
+      MODULE: python_app_template.api:app
+    cmds:
+      - docker build --target development -t {{.IMAGE}} .
+      - |
+        docker run --rm -it -p 8000:8000 \
+          -v $PWD:/app \
+          -v /app/.venv \
+          -e LOG_FORMAT \
+          -e LOG_LEVEL \
+          {{.IMAGE}} \
+          uvicorn {{.MODULE}} --host 0.0.0.0 --port 8000 --reload {{.CLI_ARGS}}
+    silent: false
+    interactive: true
+    env:
+      LOG_FORMAT: "simple"
+      LOG_LEVEL: "DEBUG"
+
+  cli:
+    desc: Build development Docker image and run cli command
+    vars:
+      IMAGE: python-app-template-dev
+      MODULE: python_app_template/cli.py
+    cmds:
+      - docker build --target development -t {{.IMAGE}} .
+      - |
+        docker run --rm -it -p 8000:8000 \
+          -v $PWD:/app \
+          -v /app/.venv \
+          -e LOG_FORMAT \
+          -e LOG_LEVEL \
+          {{.IMAGE}} \
+          uv run {{.MODULE}} {{.CLI_ARGS}}
+    silent: false
+    interactive: true
+    env:
+      LOG_FORMAT: "simple"
+      LOG_LEVEL: "DEBUG"
