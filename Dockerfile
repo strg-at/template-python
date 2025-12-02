@@ -24,7 +24,7 @@ RUN uv run ruff check --no-fix .
 RUN uv run ruff format --check .
 
 # run tests
-RUN pytest
+RUN uv run pytest
 
 FROM base AS build
 
