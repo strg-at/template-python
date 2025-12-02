@@ -8,7 +8,7 @@ tasks:
       IMAGE: python-app-template-dev
       MODULE: python_app_template.api:app
     cmds:
-      - docker build --target development -t {{.IMAGE}} .
+      - docker build --target base -t {{.IMAGE}} .
       - |
         docker run --rm -it -p 8000:8000 \
           -v $PWD:/app \
@@ -29,7 +29,7 @@ tasks:
       IMAGE: python-app-template-dev
       MODULE: python_app_template/cli.py
     cmds:
-      - docker build --target development -t {{.IMAGE}} .
+      - docker build --target base -t {{.IMAGE}} .
       - |
         docker run --rm -it -p 8000:8000 \
           -v $PWD:/app \
