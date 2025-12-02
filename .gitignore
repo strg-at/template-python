@@ -2,29 +2,23 @@
 *
 
 # Then whitelist the files that should be included
-!.releaserc.json
-!LICENSE
-!Taskfile.yaml
+!.dockerignore
+!.editorconfig
+!.gitignore
+!.markdownlint.yaml
 !.pre-commit-config.yaml
 !.prettierignore
 !.prettierrc.yaml
-!Dockerfile
-!CODEOWNERS
-!pyproject.toml
-!activate.sh
-!.editorconfig
-!README.md
-!.dockerignore
-!.gitignore
 !.yamllint.yaml
-!docker-compose.yml
-!.markdownlint.yaml
-!poetry.lock
 !CHANGELOG.md
+!CODEOWNERS
+!Dockerfile
+!LICENSE
+!pyproject.toml
+!README.md
+!Taskfile.yaml
 
 # Folders
-!.devcontainer/
-!.devcontainer/**
 !.github/
 !.github/**
 !.taskfiles/
@@ -33,10 +27,6 @@
 !python_app_template/**
 !tests/
 !tests/**
-!docs/
-!docs/**
-!scripts/
-!scripts/**
 
 # Ignore unnecessary files inside allowed directories
 # This should go after the allowed directories
