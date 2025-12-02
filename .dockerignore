@@ -2,11 +2,10 @@
 *
 
 # Then whitelist the files that should be included
-!.releaserc.json
+!.dockerignore
 !LICENSE
 !pyproject.toml
 !README.md
-!.dockerignore
 !uv.lock
 
 # Folders
@@ -14,3 +13,11 @@
 !python_app_template/**
 !tests/**
 !tests/
+
+# Ignore unnecessary files inside allowed directories
+# This should go after the allowed directories
+**/*~
+**/*.log
+**/.DS_Store
+**/Thumbs.db
+**/__pycache__
