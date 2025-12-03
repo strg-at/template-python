@@ -1,9 +1,11 @@
 ---
-# https://pre-commit.com
-default_stages: [pre-commit, pre-push]
 fail_fast: false
+default_stages:
+  - pre-commit
+  - pre-push
 
 repos:
+  # checks pre-commit config for errors
   - repo: meta
     hooks:
       - id: check-useless-excludes
@@ -17,17 +19,18 @@ repos:
           - --maxlevel
           - "3"
           - --github
+          - --notitle
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-added-large-files
       - id: check-ast
       - id: check-builtin-literals
       - id: check-case-conflict
       - id: check-docstring-first
+      - id: check-executables-have-shebangs
       - id: check-illegal-windows-names
-      - id: check-case-conflict
       - id: check-json
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
@@ -35,20 +38,23 @@ repos:
       - id: check-toml
       - id: check-vcs-permalinks
       - id: check-xml
+      - id: check-yaml
+        args:
+          - --allow-multiple-documents
       - id: debug-statements
       - id: destroyed-symlinks
       - id: detect-private-key
       - id: end-of-file-fixer
-        types: [python]
       - id: fix-byte-order-marker
       - id: mixed-line-ending
       - id: name-tests-test
         args: [--pytest-test-first]
+      - id: no-commit-to-branch
+      - id: pretty-format-json
       - id: trailing-whitespace
-        types: [python]
 
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.35.1
+    rev: v1.37.1
     hooks:
       - id: yamllint
         args:
@@ -62,14 +68,14 @@ repos:
       - id: remove-tabs
 
   - repo: https://github.com/sirosen/texthooks
-    rev: 0.6.7
+    rev: 0.7.1
     hooks:
       - id: fix-smartquotes
       - id: fix-ligatures
       - id: forbid-bidi-controls
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.44.0
+    rev: v0.46.0
     hooks:
       - id: markdownlint-fix
         args:
@@ -84,7 +90,7 @@ repos:
       - id: forbid-secrets
 
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.6.2
+    rev: v3.7.3
     hooks:
       - id: prettier
         args:
@@ -93,8 +99,13 @@ repos:
           - --config
           - .prettierrc.yaml
 
+  - repo: https://github.com/k8s-at-home/sops-pre-commit
+    rev: v2.1.1
+    hooks:
+      - id: forbid-secrets
+
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.21.0
+    rev: v8.30.0
     hooks:
       - id: gitleaks
 
@@ -112,25 +123,28 @@ repos:
     hooks:
       - id: basedpyright
         name: basedpyright
-        description: "pyright fork with various type checking improvements, improved vscode support and pylance features built into the language server"
         entry: basedpyright
         language: system
-        require_serial: true
         types_or: [python, pyi]
+        require_serial: true
 
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    # Ruff version.
-    rev: v0.11.2
-    hooks:
-      # Ignore config and fix only the import sorting.
-      - id: ruff
-        name: Fix import sorting
-        args: [--isolated, --fix, --select, "I,ICN"]
-      # Run the linter.
-      - id: ruff
-        name: Ruff lint
-        # Run the linter with fix.
+      # fix import sorting only
+      - id: ruff-imports-fix
+        name: ruff fix import sorting
+        entry: ruff check
+        language: system
+        types: [python]
+        args: [--fix, --isolated, --select, "I,ICN"]
+
+      - id: ruff-check
+        name: ruff check and fix
+        entry: ruff check
+        language: system
+        types: [python]
         args: [--fix]
-      # Run the formatter.
+
       - id: ruff-format
-        name: Ruff format
+        name: ruff format
+        entry: ruff format
+        language: system
+        types: [python]

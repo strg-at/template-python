@@ -7,4 +7,12 @@ vars:
 
 includes:
   pre-commit: .taskfiles/pre-commit.yaml
-  dev: .taskfiles/dev.yaml
+  devenv: .taskfiles/devenv.yaml
+
+tasks:
+  lint:
+    desc: lint codebase
+    dir: "{{.PROJECT_DIR}}"
+    cmds:
+      - task: pre-commit:init
+      - task: pre-commit:run
