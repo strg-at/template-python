@@ -3,18 +3,18 @@ COPY --from=ghcr.io/astral-sh/uv:0.9.13@sha256:f07d1bf7b1fb4b983eed2b31320e25a2a
 
 WORKDIR /app
 
+COPY . .
+
 RUN useradd -m strg && \
     chown -R strg:strg /app
-
-USER strg
-
-COPY . .
 
 ENV PATH="/app/.venv/bin:$PATH"
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE="copy"
 ENV UV_NO_CACHE=1
 ENV PYTHONUNBUFFERED=1
+
+USER strg
 
 RUN uv sync --dev --frozen
 
@@ -36,13 +36,13 @@ FROM python:3.13.9-slim-trixie@sha256:326df678c20c78d465db501563f3492d17c42a4afe
 
 WORKDIR /app
 
+COPY --from=build /app/.venv ./.venv
+COPY . .
+
 RUN useradd -m strg && \
     chown -R strg:strg /app
 
 USER strg
-
-COPY --from=build /app/.venv ./.venv
-COPY . .
 
 ENV PATH="/app/.venv/bin:$PATH"
 ENV PYTHONUNBUFFERED=1
