@@ -8,13 +8,13 @@ COPY . .
 RUN useradd -m strg && \
     chown -R strg:strg /app
 
+USER strg
+
 ENV PATH="/app/.venv/bin:$PATH"
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE="copy"
 ENV UV_NO_CACHE=1
 ENV PYTHONUNBUFFERED=1
-
-USER strg
 
 RUN uv sync --dev --frozen
 
