@@ -17,6 +17,7 @@
 !pyproject.toml
 !README.md
 !Taskfile.yaml
+!uv.lock
 
 # Folders
 !.github/
